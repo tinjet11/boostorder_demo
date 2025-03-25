@@ -1,20 +1,24 @@
+import 'package:boostorder_demo/screens/category.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue, // Sets the main theme color
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue), // Better for Material 3
+        useMaterial3: true, // Enables Material 3 theming
       ),
+      home: const ProductCategoryList(),
     );
   }
 }
