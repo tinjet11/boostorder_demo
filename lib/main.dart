@@ -1,8 +1,22 @@
+import 'package:boostorder_demo/providers/cart_provider.dart';
+import 'package:boostorder_demo/providers/product_provider.dart';
 import 'package:boostorder_demo/screens/category.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox<String>('products_json');
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +32,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.blue), // Better for Material 3
         useMaterial3: true, // Enables Material 3 theming
       ),
-      home: const ProductCategoryList(),
+      home: const CategoryList(),
     );
   }
 }
