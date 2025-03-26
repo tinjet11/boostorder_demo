@@ -1,26 +1,61 @@
+import 'package:boostorder_demo/providers/cart_provider.dart';
 import 'package:boostorder_demo/screens/components/cart/cart_product_card.dart';
 import 'package:boostorder_demo/screens/components/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
-  final List<int> quantities;
-  const CartScreen(this.quantities, {super.key});
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final cartItems = cartProvider.items;
+
     return Scaffold(
       appBar: const CustomAppBar(title: "Cart"),
       body: Column(
         children: [
           // Scrollable product list
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: quantities.length,
-              itemBuilder: (context, index) {
-                return const CartProductCard();
-              },
-            ),
+            child: cartItems.isEmpty
+                ? const Center(child: Text("Your cart is empty"))
+                : ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: cartItems.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index < cartItems.length) {
+                        final item = cartItems[index];
+                        return CartProductCard(item: item, index: index + 1);
+                      } else {
+                        // Display total price row at the end
+                        return Container(
+                          
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Total',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'RM ${cartProvider.totalPrice.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );                }
+                    },
+                    
+                  ),
           ),
 
           // Fixed total & checkout section
@@ -33,12 +68,12 @@ class CartScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Total (3): ',
-                      style: TextStyle(fontSize: 12),
+                    Text(
+                      'Total (${cartItems.length}): ',
+                      style: const TextStyle(fontSize: 12),
                     ),
                     Text(
-                      'RM ${(quantities.reduce((a, b) => a + b)) * 100}',
+                      'RM ${cartProvider.totalPrice.toStringAsFixed(2)}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -47,7 +82,7 @@ class CartScreen extends StatelessWidget {
                   ],
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: cartItems.isNotEmpty ? () {} : null,
                   child: const Text('Checkout'),
                 ),
               ],

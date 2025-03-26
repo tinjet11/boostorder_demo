@@ -1,14 +1,16 @@
+import 'package:boostorder_demo/models/cart_model.dart';
+
 import 'package:flutter/material.dart';
 
-class OrderTotalRow extends StatelessWidget {
-  const OrderTotalRow({super.key});
+class CartProductSummary extends StatelessWidget {
+  final CartItem item;
+  const CartProductSummary({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // Order Section
         Row(
           children: [
             Container(
@@ -17,20 +19,21 @@ class OrderTotalRow extends StatelessWidget {
               color: Colors.blue,
             ),
             const SizedBox(width: 5),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Order",
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 Row(
                   children: [
                     Text(
-                      "1 UNIT",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      "${item.quantity} ${item.product.variations[0].uom} ",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14),
                     ),
-                    Icon(Icons.chevron_right, size: 16),
+                    const Icon(Icons.chevron_right, size: 16),
                   ],
                 ),
               ],
@@ -47,16 +50,17 @@ class OrderTotalRow extends StatelessWidget {
               color: Colors.amber,
             ),
             const SizedBox(width: 5),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Total",
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 Text(
-                  "RM 100.00",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  "RM ${(double.parse(item.product.variations[0].regularPrice) * item.quantity).toStringAsFixed(2)}",
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 14),
                 ),
               ],
             ),
