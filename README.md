@@ -6,7 +6,7 @@ The **BoostOrder Mobile App** is a **Flutter-based** application designed to str
 ## 🎯 Key Features  
 
 ### 🔄 API Integration  
-- **Fetches product data** from a WooCommerce backend.  
+- **Fetches product data** from Rest API.  
 - Uses **Basic Authentication** for secure API requests.  
 
 ### 📦 Product Management  
