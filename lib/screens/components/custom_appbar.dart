@@ -1,4 +1,6 @@
+import 'package:boostorder_demo/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -29,11 +31,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.more_vert),
-          onPressed: () {
-            // Handle action here
+        PopupMenuButton<String>(
+          onSelected: (value) {
+            if (value == 'clear_cart') {
+              Provider.of<CartProvider>(context, listen: false)
+                  .removeAllItemFromCart();
+            }
           },
+          itemBuilder: (context) => [
+            if (title == "Cart")
+              const PopupMenuItem<String>(
+                value: 'clear_cart',
+                child: Text("Clear Cart"),
+              ),
+          ],
+          icon: const Icon(Icons.more_vert),
         ),
       ],
     );
