@@ -81,7 +81,7 @@ class _ProductCardState extends State<ProductCard> {
                           softWrap: true,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            fontSize: 13,
                           ),
                         ),
                       ],
